@@ -7,7 +7,7 @@ These messages define a RPC protocol for clients to interact with each other.
 
 This application protocol is classified under the `RPC` command.
 
-All messages of the command RPC use BSON serialization and snappy compression.
+All referenced data structures can be found in the [Beacon Chain](https://github.com/ethereum/eth2.0-specs/blob/master/specs/core/0_beacon-chain.md#data-structures) specification and should be serialized as SSZ Containers.
 
 The body of the RPC calls must conform to:
 ```
@@ -18,7 +18,7 @@ The body of the RPC calls must conform to:
 }
 ```
 
-Example (showing the bson snappy data as json):
+Example:
 ```
 EWP 0.2 RPC 0 12
 {
@@ -94,7 +94,9 @@ The request should contain either a `start_root` or `start_slot` parameter.
 Nodes may provide block roots to other nodes using the `BLOCK_HEADERS` message, usually in response to a `GET_BLOCK_HEADERS` message.
 
 ```java
+{
   'headers': '[]BeaconBlockHeader'
+}
 ```
 
 ## `0x0C`  GET_BLOCK_BODIES
@@ -118,19 +120,9 @@ The request should contain either a `start_root` or `start_slot` parameter.
 Nodes may provide block roots to other nodes using the `BLOCK_BODIES` message, usually in response to a `GET_BLOCK_BODIES` message.
 
 ```java
-[
-  {
-      'randao_reveal': 'bytes96',
-      'eth1_data': Eth1Data,
-      'proposer_slashings': [ProposerSlashing],
-      'attester_slashings': [AttesterSlashing],
-      'attestations': [Attestation],
-      'deposits': [Deposit],
-      'voluntary_exits': [VoluntaryExit],
-      'transfers': [Transfer],
-      'header_signature:' 'bytes96'
-  }
-]
+{
+  'bodies': []BeaconBlock
+}
 ```
 
 # Lifecycle and message exchanges
@@ -154,15 +146,5 @@ Peers may request blocks and headers from other peers.
 Other peers may respond on a best effort basis with header and block data.
 
 There is no SLA for responding. Peers may request blocks repeatedly from the same peers.
-
-#### The following definitions are aligned to v0.5.0 of the Beacon Chain Spec:
-
-- [ProposerSlashing](https://github.com/ethereum/eth2.0-specs/blob/v0.5.0/specs/core/0_beacon-chain.md#proposerslashing)  
-- [AttesterSlashing](https://github.com/ethereum/eth2.0-specs/blob/v0.5.0/specs/core/0_beacon-chain.md#attesterslashing)  
-- [Attestation](https://github.com/ethereum/eth2.0-specs/blob/v0.5.0/specs/core/0_beacon-chain.md#attestation)  
-- [Deposit](https://github.com/ethereum/eth2.0-specs/blob/v0.5.0/specs/core/0_beacon-chain.md#deposit)  
-- [VoluntaryExit](https://github.com/ethereum/eth2.0-specs/blob/v0.5.0/specs/core/0_beacon-chain.md#voluntaryexit)  
-- [Transfer](https://github.com/ethereum/eth2.0-specs/blob/v0.5.0/specs/core/0_beacon-chain.md#transfer)
-- [Eth1Data](https://github.com/ethereum/eth2.0-specs/blob/v0.5.0/specs/core/0_beacon-chain.md#eth1data)
 
 
