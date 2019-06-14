@@ -8,6 +8,7 @@ The message type both defines the `request` and `response` as they are identical
 EWP <version> <protocol> <headers-length> <body-length>
 <header><body>
 ```
+Messages are bson encoded and use snappy compression
 
 A parsed message would look like this:
 
