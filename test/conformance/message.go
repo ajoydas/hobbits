@@ -6,7 +6,7 @@ import (
 	"net"
 )
 
-func messager() {
+func messenger() {
 	conn, err := net.Dial("tcp", ip+":"+port)
 	if err != nil {
 		log.Fatalf("Error dialing %s:%s, %v\n", ip, port, err)
