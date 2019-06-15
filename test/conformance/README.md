@@ -30,7 +30,7 @@ implementation of hobbits is able to expose a port and accept incoming TCP conne
 
 Usage:
 ```bash
-$> conformance <host:-0.0.0.0> <port:-9000>
+$> conformance --ip <0.0.0.0> --port <0000>
 ```
 
 Build:
