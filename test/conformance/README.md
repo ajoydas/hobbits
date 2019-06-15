@@ -1,3 +1,7 @@
+# Conformance testing procedure
+
+![hct](https://raw.githubusercontent.com/deltap2p/hobbits/master/test/conformance/hct.png)
+
 # Conformance testing application
 
 This folder contains a simple go application one can use to ensure their
