@@ -152,7 +152,7 @@ Upon receiving a `GOODBYE` message, no response is necessary.
 
 Nodes may exchange metadata information using a `GET_STATUS` message.
 <!--is this necessary?-->
-A GET_STATUS request may be sent in response to receiving a `GOSSIP` message:
+A `GET_STATUS` request may be sent in response to receiving a `GOSSIP` message:
 
 ```python
 {
