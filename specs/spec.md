@@ -46,27 +46,7 @@ digraph {
 
 The following flow dictates how blocks are shared amongst peers:
 
-```mermaid
-sequenceDiagram
-
-participant 1 as NODE 1
-participant 2 as NODE 2
-participant 3 as NODE 3
-
-
-1->>1: RECEIVE NEW BLOCK: 0xCAB
-1->>2: GOSSIP: 0xCAB
-1->>3: GOSSIP: 0xCAB
-
-2->>1: RPC: GET_BLOCK_BODIES: 0xCAB
-1->>2: RPC: BLOCK_BODIES:[{0xCAB}]
-
-2->>2: RECEIVE NEW BLOCK: 0xCAB
-
-2->>3: GOSSIP: OXCAB
-
-2->>1: GOSSIP: OXCAB
-```
+![sequence diagram](./diagram.png)
 
 1. Node 1 receives a new block `OxCAB` and gossips it to Node 2 and Node 3
 2. Node 2 requests the block bodies for block `OxCAB` from Node 1 in an RPC Command query
