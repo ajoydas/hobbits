@@ -60,7 +60,7 @@ Every hobbit message contains the following fields:
 | Field | Definition | Validity |
 |:------:|----------|:----:|
 | `version` | Defines the EWP version number e.g. `0.2`. | `(\d+\.)(\d+)` |
-| `protocol` | Defines the [protocol](#protocol). | `(RPC\|GOSSIP\|PING)` |
+| `protocol` | Defines the [protocol](#protocols). | `(RPC\|GOSSIP\|PING)` |
 | `header` | Defines the header | payload |
 | `body` | Defines the body | payload |
 
