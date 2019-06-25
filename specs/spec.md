@@ -132,7 +132,7 @@ Nodes can send `HELLO` messages to each other to exchange information on their s
 }
 ```
 
-Upon receiving a `HELLO` message, the node may reply with a `HELLO` message.
+Upon receiving a `HELLO` message, the node should reply with a `HELLO` message.
 
 ###### `0x01` GOODBYE
 
