@@ -1,0 +1,19 @@
+sequenceDiagram
+
+participant 1 as NODE 1
+participant 2 as NODE 2
+participant 3 as NODE 3
+
+
+1->>1: RECEIVE NEW BLOCK: 0xCAB
+1->>2: GOSSIP: 0xCAB
+1->>3: GOSSIP: 0xCAB
+
+2->>1: RPC: GET_BLOCK_BODIES: 0xCAB
+1->>2: RPC: BLOCK_BODIES:[{0xCAB}]
+
+2->>2: RECEIVE NEW BLOCK: 0xCAB
+
+2->>3: GOSSIP: OXCAB
+
+2->>1: GOSSIP: OXCAB
