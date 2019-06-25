@@ -10,15 +10,14 @@
 
 1. [Abstract](#abstract)
 2. [Flow](#flow)
-3. [Definitions](#definitions)
-4. [Wire Protocol](#wire-protocol)
-    4.1 [Messages](#messages)
-5. [Transport](#transport)
-6. [Protocols](#protocols)
-    6.1 [RPC](#rpc)
-    6.2 [Gossip](#gossip)
-    6.3 [PING](#ping)
-7. [Implementations](#implementations)
+3. [Wire Protocol](#wire-protocol)
+    3.1 [Messages](#messages)
+4. [Transport](#transport)
+5. [Protocols](#protocols)
+    5.1 [RPC](#rpc)
+    5.2 [Gossip](#gossip)
+    5.3 [PING](#ping)
+6. [Implementations](#implementations)
 
 ## Abstract
 
