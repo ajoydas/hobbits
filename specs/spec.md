@@ -35,7 +35,7 @@ The following flow dictates how blocks are shared amongst peers:
 
 ![sequence diagram](./diagram.png)
 
-1. Node 1 receives a new block `OxCAB` and gossips it to Node 2 and Node 3
+1. Node 1 receives a new block `0xCAB` and gossips `hash(0xCAB)` to Node 2 and Node 3
 2. Node 2 requests the block bodies for block `OxCAB` from Node 1 in an RPC Command query
 3. Node 1 responds to Node 2 with the block bodies for block `OxCAB` in an RPC Command response
 4. Node 2 receives a new block `OxCAB` and gossips it to Node 1 and Node 3
