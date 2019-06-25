@@ -208,7 +208,6 @@ Nodes may request block bodies from other nodes using the `GET_BLOCK_BODIES` mes
 }
 ```
 
-
 ###### `0x0D` BLOCK_BODIES
 
 Nodes may provide block roots to other nodes using the `BLOCK_BODIES` message, usually in response to a `GET_BLOCK_BODIES` message:
