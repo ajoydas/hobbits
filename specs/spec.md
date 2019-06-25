@@ -289,7 +289,7 @@ The `message_hash` header value must match the hash of the contents of the body 
 
 The ping/pong protocol is used to test connections between two peers and ensure the Hobbits implementation is passing conformance tests.
 
-When a `PING` message is received, the node should respond with the body of the `PING` message as a `PONG` message.
+When a `PING` message is received, the node must respond with the body of the `PING` message as a `PONG` message.
 
 ## Ping
 
