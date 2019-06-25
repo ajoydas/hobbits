@@ -1,0 +1,353 @@
+# @TODO
+- [ ] Link to parsers.
+- [ ] attestations
+
+# Hobbits
+
+*Written by Dean Eigenmann <dean@status.im> & Rene Nayman <rene@whiteblock.io>* 
+
+## Table of Contents
+
+1. [Abstract](#abstract)
+2. [Flow](#flow)
+3. [Definitions](#definitions)
+4. [Wire Protocol](#wire-protocol)
+    4.1 [Messages](#messages)
+5. [Transport](#transport)
+6. [Protocols](#protocols)
+    6.1 [RPC](#rpc)
+    6.2 [Gossip](#gossip)
+    6.3 [PING](#ping)
+7. [Implementations](#implementations)
+
+## Abstract
+
+Hobbits is a modular wire protocol which allows implementers to experiment with various application logic over a practical network in an agnostic and expedient manner.
+
+Hobbits wire protocol was developed so that Eth2.0 clients could begin network-level testing without requiring libp2p.
+
+## Flow
+
+We layout a network where the nodes are peered in the following manner:
+
+```graphviz
+digraph {
+    1 [label="Node 1"]
+    2 [label="Node 2"]
+    3 [label="Node 3"]
+    1 -> 3
+    1 -> 2
+    2 -> 1
+    2 -> 3
+    3 -> 1
+    3 -> 2
+}
+```
+
+The following flow dictates how blocks are shared amongst peers:
+
+```mermaid
+sequenceDiagram
+
+participant 1 as NODE 1
+participant 2 as NODE 2
+participant 3 as NODE 3
+
+
+1->>1: RECEIVE NEW BLOCK: 0xCAB
+1->>2: GOSSIP: 0xCAB
+1->>3: GOSSIP: 0xCAB
+
+2->>1: RPC: GET_BLOCK_BODIES: 0xCAB
+1->>2: RPC: BLOCK_BODIES:[{0xCAB}]
+
+2->>2: RECEIVE NEW BLOCK: 0xCAB
+
+2->>3: GOSSIP: OXCAB
+
+2->>1: GOSSIP: OXCAB
+```
+
+1. Node 1 receives a new block `OxCAB` and gossips it to Node 2 and Node 3
+2. Node 2 requests the block bodies for block `OxCAB` from Node 1 in an RPC Command query
+3. Node 1 responds to Node 2 with the block bodies for block `OxCAB` in an RPC Command response
+4. Node 2 receives a new block `OxCAB` and gossips it to Node 1 and Node 3
+
+## Wire Protocol
+
+### Messages
+
+Messages are sent as `utf-8 byte encoded arrays`. The `message` format looks as follows:
+
+```
+EWP <version> <protocol> <header-length> <body-length>
+<header><body>
+```
+
+**NOTE:** Message`body`s along with `header` fields are BSON encoded.
+
+#### Fields
+
+Every hobbit message contains the following fields: 
+
+| Field | Definition | Validity |
+|:------:|----------|:----:|
+| `version` | Defines the EWP version number e.g. `0.2`. | `(\d+\.)(\d+)` |
+| `protocol` | Defines the [protocol](#protocol). | `(RPC\|GOSSIP\|PING)` |
+| `header` | Defines the header | payload |
+| `body` | Defines the body | payload |
+
+## Transport
+
+<!-- @TODO DISCUSS TCP AND SHIT -->
+
+## Protocols
+
+Hobbits defines 3 protocols that dictate how messages are interpreted and responded to.
+
+### RPC
+
+<!-- @TODO WRITE SOME SHIT -->
+
+#### Envelope
+
+```python
+{ 
+  'method_id': 'uint16' ## byte representing the method
+  'id': 'uint64' ## id of the request
+  'body': 'bytes' ## body of the request itself
+}
+```
+
+The `body` field contains an [SSZ](https://github.com/ethereum/eth2.0-specs/blob/dev/specs/simple-serialize.md) encoded byte array. 
+
+##### Example
+
+Below you will find an example `RPC` request.
+
+```
+EWP 0.2 RPC 0 65
+{
+  "method_id": 0x01,
+  "id": 1,
+  "body": {
+    "bodies": "0x2a00000000000000"
+  }
+}
+```
+#### RPC Methods
+
+There are two types of RPC methods: one that requests data and one that responds with data.
+
+* Peers may request blocks and headers from other peers, possibly in response to a `GOSSIP` message. 
+* Peers may request blocks repeatedly from the same peers.
+* Other peers may respond on a best effort basis with header and block data.
+* There is no SLA for responding. 
+
+##### Handshake
+
+###### `0x00` HELLO
+
+Upon discovering each other, nodes may exchange `HELLO` messages.
+
+Nodes may send `HELLO` to other peers when they exchange messages for the first time or when their state changes to let them know new blocks are available.
+
+Nodes can send `HELLO` messages to each other to exchange information on their status:
+
+```python
+{
+  'network_id': 'uint8' ## the ID of the network (1 for mainnet, and some predefined number for a testnet)
+  'chain_id': 'uint8' ## the ID of the chain (1 for ETH)
+  'latest_finalized_root': 'bytes32' ## the hash of the latest finalized root
+  'latest_finalized_epoch': 'uint64' ## the number of the latest finalized epoch
+  'best_root': 'bytes32' ## the hash of the best root this node can offer
+  'best_slot': 'uint64' ## the number of the best slot this node can offer
+}
+```
+
+Upon receiving a `HELLO` message, the node may reply with a `HELLO` message.
+
+###### `0x01` GOODBYE
+
+Nodes may signal to other nodes that they are going away by sending a `GOODBYE` message:
+
+```python
+{
+  'reason': 'uint64' ## an optional reason code up to the client
+}
+```
+
+The reason given is optional. Reason codes are up to each client and should not be trusted.
+
+Upon receiving a `GOODBYE` message, no response is necessary.
+
+##### `Ox02` GET_STATUS
+
+Nodes may exchange metadata information using a `GET_STATUS` message.
+<!--is this necessary?-->
+A GET_STATUS request may be sent in response to receiving a `GOSSIP` message:
+
+```python
+{
+  'user_agent': 'bytes' ## the human readable name of the client, optionally with its version and other metadata
+  'timestamp': 'uint64' ## the current time of the node in milliseconds since epoch
+}
+```
+
+Any peer may provide information about their status and metadata to any other peer. Other peers may respond on a best effort basis, if at all.
+
+##### Block Headers
+
+###### `0x0A` GET_BLOCK_HEADERS
+
+Nodes may request block headers from other nodes using the `GET_BLOCK_HEADERS` message:
+
+<!--is this necessary?-->
+```python
+{
+  'start_root': 'bytes32' ## the root hash to start querying from OR
+  'start_slot': 'uint64' ## the slot number to start querying from
+  'max': 'uint64' ## the max number of elements to return
+  'skip': 'uint64' ## the number of elements apart to pick from
+  'direction': 'uint8' ## 0x01 is ascending, 0x00 is descending direction to query elements
+}
+```
+
+A `GET_BLOCK_HEADERS` request may be sent in response to receiving a `GOSSIP` message.
+
+###### `0x0B` BLOCK_HEADERS
+
+Nodes may provide block roots to other nodes using the `BLOCK_HEADERS` message, usually in response to a `GET_BLOCK_HEADERS` message:
+
+```python
+{
+  'headers': '[]BeaconBlockHeader'
+}
+```
+
+##### Block Bodies
+
+###### `0x0C` GET_BLOCK_BODIES
+
+Nodes may request block bodies from other nodes using the `GET_BLOCK_BODIES` message:
+
+```python
+{
+  'start_root': 'bytes32' ## the root hash to start querying from OR
+  'start_slot': 'uint64' ## the slot number to start querying from
+  'max': 'uint64' ## the max number of elements to return
+  'skip': 'uint64' ## the number of elements apart to pick from
+  'direction': 'uint8' ## `0x01` is ascending, `0x00` is descending direction to query elements
+}
+```
+
+
+###### `0x0D` BLOCK_BODIES
+
+Nodes may provide block roots to other nodes using the `BLOCK_BODIES` message, usually in response to a `GET_BLOCK_BODIES` message:
+
+```python
+{
+  'bodies': []BeaconBlock
+}
+```
+
+##### Attestations
+
+###### GET_ATTESTATIONS
+
+Nodes may request attestations from other nodes using the `GET_ATTESTATIONS` message:
+
+```python
+{
+    'signature' : bytes32
+}
+```
+
+###### ATTESTATIONS
+
+```python
+{
+    'attestation' : bytes32
+}
+```
+
+### Gossip
+
+<!-- @TODO WRITE SOME SHIT -->
+
+#### Envelope
+
+The message must contain the following header:
+
+```python
+{ 
+  'method_id': 'uint16' ## the method used in this exchange, as described below
+  'topic': 'string' ## the type of message being exchanged
+  'timestamp': 'uint32' ## timestamp when the message was sent
+  'message_hash': 'bytes32' ## a hash uniquely representing the message contents, with a hash function up to the application
+  'hash_signature': 'bytes32' ## a signature of the message hash with a public key identifying the node sending data
+}
+```
+
+##### Example
+```
+EWP 0.2 GOSSIP 222 0
+{
+  "method_id": 3,
+  "topic": "BLOCK",
+  "timestamp": 1560471980,
+  "message_hash": "0x9D686F6262697473206172652074776F20616E6420666F75722066656574",
+  "hash_signature": "0x0000000009A4672656E63682070656F706C6520617265207468652062657374"
+}
+```
+
+The message may contain additional headers specified by the application layer.
+
+#### GOSSIP Methods
+
+<!--should we include examples of messages?-->
+<!--should we include that RPC commands can be a response to IHAVE message?-->
+
+##### `0x00` GOSSIP
+
+Nodes use `GOSSIP` methods to send data to other nodes in the network.
+
+The body of a `GOSSIP` method consists in the data being gossiped and 
+
+**@TODO: is the body an ssz encoded byte array?**
+
+The `message_hash` header value must match the hash of the contents of the body according to a predefined hash function defined by the application.
+
+### Ping
+
+The ping/pong protocol is used to test connections between two peers and ensure the Hobbits implementation is passing conformance tests.
+
+When a `PING` message is received, the Hobbits implementer should respond with the body of the `PING` message as a `PONG` message.
+
+## Ping
+
+```
+EWP 0.2 PING 4 32
+ping<body bytes>
+```
+
+Headers: `ping` as UTF-8 bytes
+
+Body: `random 32 bytes`
+
+## Pong
+
+```
+EWP 0.2 PING 4 32
+pong<body bytes>
+```
+
+Headers: `pong` as UTF-8 bytes
+
+Body: `32 bytes sent by the ping packet`
+
+## Implementations
+
+As a reference, the following implementations exist:
+ - [go-hobbits](https://github.com/renaynay/go-hobbits)
