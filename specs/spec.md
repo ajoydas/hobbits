@@ -29,19 +29,7 @@ Hobbits wire protocol was developed so that Eth2.0 clients could begin network-l
 
 We layout a network where the nodes are peered in the following manner:
 
-```graphviz
-digraph {
-    1 [label="Node 1"]
-    2 [label="Node 2"]
-    3 [label="Node 3"]
-    1 -> 3
-    1 -> 2
-    2 -> 1
-    2 -> 3
-    3 -> 1
-    3 -> 2
-}
-```
+![nodes](./nodes.png)
 
 The following flow dictates how blocks are shared amongst peers:
 
