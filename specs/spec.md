@@ -45,7 +45,7 @@ The following flow dictates how blocks are shared amongst peers:
 
 ### Messages
 
-Messages are sent as `utf-8 byte encoded arrays`. The `message` format looks as follows:
+The `message` format looks as follows:
 
 ```
 EWP <version> <protocol> <header-length> <body-length>
