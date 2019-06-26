@@ -1,6 +1,7 @@
 # @TODO
 - [ ] Link to parsers.
 - [ ] attestations
+- [ ] what else needs to be defined in the transport header?
 
 # Hobbits
 
@@ -66,7 +67,16 @@ Every hobbit message contains the following fields:
 
 ## Transport
 
-<!-- @TODO DISCUSS TCP AND SHIT -->
+A Hobbits node listens for and sends out messages. 
+
+Hobbits packets are sent as follows: 
+
+```
+<length><packet>
+```
+
+- **Length**: `little endian` encoded int that represents the length of the packet, with a length of 4 bytes.
+- **Packet**: Byte encoded string of the hobbits message.
 
 ## Protocols
 
