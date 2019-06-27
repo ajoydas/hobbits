@@ -137,7 +137,7 @@ Nodes can send `HELLO` messages to each other to exchange information on their s
   'chain_id': 'uint8' ## the ID of the chain (1 for ETH)
   'latest_finalized_root': 'bytes32' ## the hash of the latest finalized root
   'latest_finalized_epoch': 'uint64' ## the number of the latest finalized epoch
-  'best_root': 'bytes32' ## the hash of the best block root this node can offer
+  'best_root': 'bytes32' ## the hash of the best root this node can offer
   'best_slot': 'uint64' ## the number of the best slot this node can offer
 }
 ```
@@ -224,27 +224,27 @@ Nodes may provide block roots to other nodes using the `BLOCK_BODIES` message, u
 
 ```python
 {
-  'bodies': []BeaconBlock
+  'bodies': '[]BeaconBlock'
 }
 ```
 
 ##### Attestations
 
-###### GET_ATTESTATIONS
+###### GET_ATTESTATION
 
-Nodes may request attestations from other nodes using the `GET_ATTESTATIONS` message:
+Nodes may request an attestation from other nodes using the `GET_ATTESTATION` message:
 
 ```python
 {
-    'signature' : bytes32
+    'signature' : 'bytes'
 }
 ```
 
-###### ATTESTATIONS
+###### ATTESTATION
 
 ```python
 {
-    'attestation' : bytes32
+    'attestation' : 'Attestation'
 }
 ```
 
