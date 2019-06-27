@@ -137,7 +137,7 @@ Nodes can send `HELLO` messages to each other to exchange information on their s
   'chain_id': 'uint8' ## the ID of the chain (1 for ETH)
   'latest_finalized_root': 'bytes32' ## the hash of the latest finalized root
   'latest_finalized_epoch': 'uint64' ## the number of the latest finalized epoch
-  'best_root': 'bytes32' ## the hash of the best root this node can offer
+  'best_root': 'bytes32' ## the hash of the best block root this node can offer
   'best_slot': 'uint64' ## the number of the best slot this node can offer
 }
 ```
