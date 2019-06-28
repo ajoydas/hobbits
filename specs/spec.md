@@ -12,12 +12,12 @@
 1. [Abstract](#abstract)
 2. [Flow](#flow)
 3. [Wire Protocol](#wire-protocol)
-    - [Messages](#messages)
+    1. [Messages](#messages)
 4. [Transport](#transport)
 5. [Protocols](#protocols)
-    - [RPC](#rpc)
-    - [Gossip](#gossip)
-    - [PING](#ping)
+    1. [RPC](#rpc)
+    2. [Gossip](#gossip)
+    3. [PING](#ping)
 6. [Implementations](#implementations)
 
 ## Abstract
