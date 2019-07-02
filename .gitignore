@@ -26,3 +26,4 @@ parsers/scheme/test.scm~
 *.test
 *.out
 test/conformance/conformance
+.idea
