@@ -5,8 +5,6 @@
 
 # Hobbits
 
-*Written by Dean Eigenmann <dean@status.im> & Rene Nayman <rene@whiteblock.io>* 
-
 ## Table of Contents
 
 1. [Abstract](#abstract)
@@ -16,7 +14,7 @@
 4. [Transport](#transport)
 5. [Protocols](#protocols)
     1. [RPC](#rpc)
-    2. [Gossip](#gossip)
+    2. [GOSSIP](#gossip)
     3. [PING](#ping)
 6. [Implementations](#implementations)
 
@@ -84,7 +82,9 @@ Hobbits defines 3 protocols that dictate how messages are interpreted and respon
 
 ### RPC
 
-<!-- @TODO WRITE SOME SHIT -->
+The RPC protocol defines the interaction between two peers exchanging messages to coordinate their actions.
+
+The messages range from communicating status and metadata to exchanging block data to synchronize chains.
 
 #### Envelope
 
@@ -100,7 +100,7 @@ The `body` field contains an [SSZ](https://github.com/ethereum/eth2.0-specs/blob
 
 ##### Example
 
-Below you will find an example `RPC` request.
+Below you will find an example `RPC` message.
 
 ```
 EWP 0.2 RPC 0 65
@@ -248,9 +248,11 @@ Nodes may request an attestation from other nodes using the `GET_ATTESTATION` me
 }
 ```
 
-### Gossip
+### GOSSIP
 
-<!-- @TODO WRITE SOME SHIT -->
+The gossip protocol allows the propagation of a message to all peers by gossiping the message or its attestation.
+
+For the scope of this specification, only the GOSSIP message is defined, so all peers receive a full copy of the message.
 
 #### Envelope
 
@@ -289,19 +291,21 @@ The message may contain additional headers specified by the application layer.
 
 Nodes use `GOSSIP` methods to send data to other nodes in the network.
 
-The body of a `GOSSIP` method consists in the data being gossiped and 
+The body of a `GOSSIP` method consists in the data being gossiped.
 
 **@TODO: is the body an ssz encoded byte array?**
 
 The `message_hash` header value must match the hash of the contents of the body according to a predefined hash function defined by the application.
 
-### Ping
+### PING
 
 The ping/pong protocol is used to test connections between two peers and ensure the Hobbits implementation is passing conformance tests.
 
 When a `PING` message is received, the node must respond with the body of the `PING` message as a `PONG` message.
 
-## Ping
+#### PING methods
+
+##### Ping
 
 ```
 EWP 0.2 PING 4 32
@@ -312,7 +316,7 @@ Headers: `ping` as UTF-8 bytes
 
 Body: `random 32 bytes`
 
-## Pong
+##### Pong
 
 ```
 EWP 0.2 PING 4 32
@@ -327,3 +331,16 @@ Body: `32 bytes sent by the ping packet`
 
 As a reference, the following implementations exist:
  - [go-hobbits](https://github.com/renaynay/go-hobbits)
+ - [Apache Tuweni](https://github.com/apache/incubator-tuweni)
+
+## Acknowlegments
+
+This project would not exist without the dedication of the following individuals. 
+
+* Zak Cole
+* Dean Eigenmann
+* Matt Elder
+* Rene Nayman
+* Jonny Rhea
+* Preston Van Loon
+
