@@ -50,7 +50,7 @@ The `message` format looks as follows:
 
 | Field | Definition |
 | ----- | ---------- |
-| version | 4-byte encoded `uint32` that represents the hobbits version. |
+| version | 4-byte encoded `uint32` that represents the hobbits version. (Current Version: 3) |
 | protocol | 1-byte encoded `uint8` that represents the protocol (0 - RPC, 1 - GOSSIP, 2 - PING) |
 | header-length | 4-byte encoded `uint32` that represents the header length. |
 | body-length | 4-byte encoded `uint32` that represents the body length. |
@@ -67,7 +67,7 @@ Every hobbit message contains the following fields:
 
 | Field | Definition | Validity |
 |:------:|----------|:----:|
-| `version` | Defines the EWP version number e.g. `0.2`. | `(\d+\.)(\d+)` |
+| `version` | Defines the EWP version number e.g. `2`. | `uint32` |
 | `protocol` | Defines the [protocol](#protocols). | `(RPC\|GOSSIP\|PING)` |
 | `header` | Defines the header | payload |
 | `body` | Defines the body | payload |
