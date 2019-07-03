@@ -344,7 +344,7 @@ EWP 3 GOSSIP 222 1000
 #### Other gossip methods
 
 Other gossip methods are explicitly out of scope for this specification at this time.
-IHAVE, PRUNE, GRAFT and IWANT will be defined if necessary.
+`IHAVE`, `PRUNE`, `GRAFT` and `IWANT` will be defined if necessary.
 
 ### PING
 
