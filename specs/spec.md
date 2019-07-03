@@ -57,7 +57,9 @@ The `message` format looks as follows:
 | header | byte encoded header |
 | body | byte encoded body |
 
-**NOTE:** Message`body`s along with `header` fields are BSON encoded.
+**NOTE:** 
+ - Message`body`s along with `header` fields are BSON encoded.
+ - All `int` types are big endian encoded.
 
 #### Fields
 
