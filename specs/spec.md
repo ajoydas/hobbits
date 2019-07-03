@@ -1,8 +1,3 @@
-# @TODO
-- [ ] Link to parsers.
-- [ ] attestations
-- [ ] what else needs to be defined in the transport header?
-
 # Hobbits
 
 ## Table of Contents
