@@ -375,6 +375,7 @@ Body: `32 bytes sent by the ping packet`
 As a reference, the following implementations exist:
  - [go-hobbits](https://github.com/renaynay/go-hobbits)
  - [Apache Tuweni](https://github.com/apache/incubator-tuweni)
+ - [Typescript](https://github.com/chainsafe/hobbits-ts)
 
 ## Acknowlegments
 
