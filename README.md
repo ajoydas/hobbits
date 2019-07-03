@@ -36,6 +36,7 @@ The protocol specification can be found [here](/specs/spec.md).
  - [Java](https://github.com/pegasyseng/artemis)
  - [Swift](https://github.com/yeeth/Hobbits.swift)
  - [Go](https://github.com/renaynay/go-hobbits)
+ - [Typescript](https://github.com/chainsafe/hobbits-ts)
 
 ### Missing languages
   * brainfuck
