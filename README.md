@@ -37,6 +37,7 @@ Hobbits is a modular wire protocol which allows implementers to experiment with 
 ### Full Implementations
  - [Java](https://github.com/pegasyseng/artemis)
  - [Swift](https://github.com/yeeth/Hobbits.swift)
+ - [Go](https://github.com/renaynay/go-hobbits)
 
 ### Missing languages
   * brainfuck
