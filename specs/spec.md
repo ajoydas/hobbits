@@ -45,11 +45,12 @@ The following flow dictates how blocks are shared amongst peers:
 The `message` format looks as follows:
 
 ```
-<version><protocol><header-length><body-length><header><body>
+<protocol-identifier><version><protocol><header-length><body-length><header><body>
 ```
 
 | Field | Definition |
 | ----- | ---------- |
+| protocol identifier | utf-8 encoded `EWP` |
 | version | 4-byte encoded `uint32` that represents the hobbits version. (Current Version: 3) |
 | protocol | 1-byte encoded `uint8` that represents the protocol (0 - RPC, 1 - GOSSIP, 2 - PING) |
 | header-length | 4-byte encoded `uint32` that represents the header length. |
@@ -304,7 +305,7 @@ When a `PING` message is received, the node must respond with the body of the `P
 ##### Ping
 
 ```
-EWP 0.2 PING 4 32
+EWP32432
 ping<body bytes>
 ```
 
@@ -315,7 +316,7 @@ Body: `random 32 bytes`
 ##### Pong
 
 ```
-EWP 0.2 PING 4 32
+EWP32432
 pong<body bytes>
 ```
 
