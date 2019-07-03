@@ -6,12 +6,7 @@ Hobbits is a modular wire protocol which allows implementers to experiment with 
 
 ## Specifications
 
-### EWP 0.2
- - [EBNF Grammar](/specs/Ethereum-Wire-Protocol-0.2.EBNF)
- - [Protocol](/specs/protocol.md)
- 
-### ETH 2.0 Protocol
- - [Messages](/specs/rpc-messages.md)
+The protocol specification can be found [here](/specs/spec.md)
 
 ## Implementations
 
