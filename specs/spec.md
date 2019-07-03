@@ -94,20 +94,71 @@ The `body` field contains an [SSZ](https://github.com/ethereum/eth2.0-specs/blob
 
 ##### Example
 
-Below you will find an example `RPC` message.
+Below you will find an example `RPC` `GET_BLOCK_BODIES` message and a `BLOCK_BODIES` response.
+
+Message:
+```
+EWP 3 RPC 36 358
+{
+    “method_id”: 0x0C,
+    “id”: 1,
+}
+{
+    “body”: {
+        'start_root': 'bytes32' ## the root hash to start querying from OR
+        'start_slot': 'uint64' ## the slot number to start querying from
+        'max': 'uint64' ## the max number of elements to return
+        'skip': 'uint64' ## the number of elements apart to pick from
+        'direction': 'uint8' ## `0x01` is ascending, `0x00` is descending direction to query elements
+    }
+}
+```
+
+Response: 
+```
+EWP 3 RPC <length of header> <length of body>
+{
+    “method_id”: 0x0D,
+    “id”: 1,
+}
+{
+    “body”: {
+        "bodies": [“0x2a00000000000000”]
+    }
+}
+```
+
+Below you will find an example `RPC` `GET_ATTESTATION` message and an `ATTESTATION` response.
+
+Message: 
 
 ```
-EWP 3 RPC 65 0
+EWP 3 RPC <length of header> <length of body>
 {
-  "method_id": 0x01,
-  "id": 1,
+    “method_id”: 0x0E,
+    “id”: 1,
 }
 {
-  "body": {
-    "bodies": ["0x2a00000000000000"]
-  }
+    “body”: {
+        "attestationHash": “0x2a00000000000000”
+    }
 }
 ```
+
+Response: 
+```
+EWP 3 RPC <length of header> <length of body>
+{
+        “method_id”: 0x0F,
+        “id”: 1,
+}
+{
+    “body”: {
+        "attestation": “0x2a00000000000000”      ##ssz encoded
+    }
+} 
+```
+
 #### RPC Methods
 
 There are two types of RPC methods: one that requests data and one that responds with data.
