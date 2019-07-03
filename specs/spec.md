@@ -45,12 +45,12 @@ The following flow dictates how blocks are shared amongst peers:
 The `message` format looks as follows:
 
 ```
-<protocol-identifier><version><protocol><header-length><body-length><header><body>
+<preamble><version><protocol><header-length><body-length><header><body>
 ```
 
 | Field | Definition |
 | ----- | ---------- |
-| protocol identifier | utf-8 encoded `EWP` |
+| preamble | utf-8 encoded `EWP` |
 | version | 4-byte encoded `uint32` that represents the hobbits version. (Current Version: 3) |
 | protocol | 1-byte encoded `uint8` that represents the protocol (0 - RPC, 1 - GOSSIP, 2 - PING) |
 | header-length | 4-byte encoded `uint32` that represents the header length. |
