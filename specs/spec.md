@@ -46,9 +46,17 @@ The following flow dictates how blocks are shared amongst peers:
 The `message` format looks as follows:
 
 ```
-EWP <version> <protocol> <header-length> <body-length>
-<header><body>
+<version><protocol><header-length><body-length><header><body>
 ```
+
+| Field | Definition |
+| ----- | ---------- |
+| version | 4-byte encoded `uint32` that represents the hobbits version. |
+| protocol | 1-byte encoded `uint8` that represents the protocol (0 - RPC, 1 - GOSSIP, 2 - PING |
+| header-length | 4-byte encoded `uint32` that represents the header length. |
+| body-length | 4-byte encoded `uint32` that represents the body length. |
+| header | byte encoded header |
+| body | byte encoded body |
 
 **NOTE:** Message`body`s along with `header` fields are BSON encoded.
 
@@ -62,19 +70,6 @@ Every hobbit message contains the following fields:
 | `protocol` | Defines the [protocol](#protocols). | `(RPC\|GOSSIP\|PING)` |
 | `header` | Defines the header | payload |
 | `body` | Defines the body | payload |
-
-## Transport
-
-A Hobbits node listens for and sends out messages. 
-
-Hobbits packets are sent as follows: 
-
-```
-<length><packet>
-```
-
-- **Length**: `big endian` encoded `uint32` that represents the length of the packet, with a length of 4 bytes.
-- **Packet**: Byte encoded string of the hobbits message.
 
 ## Protocols
 
