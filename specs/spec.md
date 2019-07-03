@@ -303,7 +303,7 @@ For the scope of this specification, only the GOSSIP message is defined, so all 
 
 #### Envelope
 
-GOSSIP messages do not contain a body. The message must contain the following header:
+The message must contain the following headers:
 
 ```python
 { 
@@ -315,30 +315,36 @@ GOSSIP messages do not contain a body. The message must contain the following he
 }
 ```
 
-##### Example
-```
-EWP 3 GOSSIP 222 0
-{
-  "method_id": 3,
-  "topic": "BLOCK",
-  "timestamp": 1560471980,
-  "message_hash": "0x9D686F6262697473206172652074776F20616E6420666F75722066656574",
-  "hash_signature": "0x0000000009A4672656E63682070656F706C6520617265207468652062657374"
-}
-```
-
-The message may contain additional headers specified by the application layer.
+The message may contain additional headers specified by the application layer (metadata for monitoring and metrics collection, such as the number of hops).
 
 #### GOSSIP Methods
-
-<!--should we include examples of messages?-->
-<!--should we include that RPC commands can be a response to IHAVE message?-->
 
 ##### `0x00` GOSSIP
 
 Nodes use `GOSSIP` methods to send data to other nodes in the network.
 
 The `message_hash` header value must match the hash of the contents of the body according to a predefined hash function defined by the application.
+
+The body is the SSZ encoded representation of the object. The type of object is defined by the header "topic", which may be `BLOCK` or `ATTESTATION`.
+
+```
+EWP 3 GOSSIP 222 1000
+{
+  "method_id": 0,
+  "topic": "BLOCK",
+  "timestamp": 1560471980,
+  "message_hash": "0x9D686F6262697473206172652074776F20616E6420666F75722066656574",
+  "hash_signature": "0x0000000009A4672656E63682070656F706C6520617265207468652062657374"
+}
+{
+ SSZ encoded representation of block or attestation
+}
+```
+
+#### Other gossip methods
+
+Other gossip methods are explicitly out of scope for this specification at this time.
+IHAVE, PRUNE, GRAFT and IWANT will be defined if necessary.
 
 ### PING
 
