@@ -277,7 +277,7 @@ Nodes may provide block roots to other nodes using the `BLOCK_BODIES` message, u
 
 ##### Attestations
 
-###### GET_ATTESTATION
+###### `0x0E` GET_ATTESTATION
 
 Nodes may request an attestation from other nodes using the `GET_ATTESTATION` message, with the following information contained in the body of the message:
 
@@ -287,7 +287,7 @@ Nodes may request an attestation from other nodes using the `GET_ATTESTATION` me
 }
 ```
 
-###### ATTESTATION
+###### `0x0F` ATTESTATION
 
 ```python
 {
