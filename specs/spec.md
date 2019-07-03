@@ -11,12 +11,11 @@
 2. [Flow](#flow)
 3. [Wire Protocol](#wire-protocol)
     1. [Messages](#messages)
-4. [Transport](#transport)
-5. [Protocols](#protocols)
+4. [Protocols](#protocols)
     1. [RPC](#rpc)
     2. [GOSSIP](#gossip)
     3. [PING](#ping)
-6. [Implementations](#implementations)
+5. [Implementations](#implementations)
 
 ## Abstract
 
