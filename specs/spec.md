@@ -100,7 +100,7 @@ The `body` field contains an [SSZ](https://github.com/ethereum/eth2.0-specs/blob
 Below you will find an example `RPC` message.
 
 ```
-EWP30650
+EWP 3 RPC 65 0
 {
   "method_id": 0x01,
   "id": 1,
@@ -267,7 +267,7 @@ The message must contain the following header:
 
 ##### Example
 ```
-EWP312220
+EWP 3 GOSSIP 222 0
 {
   "method_id": 3,
   "topic": "BLOCK",
@@ -305,7 +305,7 @@ When a `PING` message is received, the node must respond with the body of the `P
 ##### Ping
 
 ```
-EWP32432
+EWP 3 PING 4 32
 ping<body bytes>
 ```
 
@@ -316,7 +316,7 @@ Body: `random 32 bytes`
 ##### Pong
 
 ```
-EWP32432
+EWP 3 PING 4 32
 pong<body bytes>
 ```
 
