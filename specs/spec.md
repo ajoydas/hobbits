@@ -84,6 +84,8 @@ The messages range from communicating status and metadata to exchanging block da
 { 
   'method_id': 'uint16' ## byte representing the method
   'id': 'uint64' ## id of the request
+}
+{
   'body': 'bytes' ## body of the request itself
 }
 ```
@@ -92,18 +94,71 @@ The `body` field contains an [SSZ](https://github.com/ethereum/eth2.0-specs/blob
 
 ##### Example
 
-Below you will find an example `RPC` message.
+Below you will find an example `RPC` `GET_BLOCK_BODIES` message and a `BLOCK_BODIES` response.
 
+Message:
 ```
-EWP 3 RPC 65 0
+EWP 3 RPC 36 358
 {
-  "method_id": 0x01,
-  "id": 1,
-  "body": {
-    "bodies": "0x2a00000000000000"
-  }
+    “method_id”: 0x0C,
+    “id”: 1,
+}
+{
+    “body”: {
+        'start_root': 'bytes32' ## the root hash to start querying from OR
+        'start_slot': 'uint64' ## the slot number to start querying from
+        'max': 'uint64' ## the max number of elements to return
+        'skip': 'uint64' ## the number of elements apart to pick from
+        'direction': 'uint8' ## `0x01` is ascending, `0x00` is descending direction to query elements
+    }
 }
 ```
+
+Response: 
+```
+EWP 3 RPC <length of header> <length of body>
+{
+    “method_id”: 0x0D,
+    “id”: 1,
+}
+{
+    “body”: {
+        "bodies": [“0x2a00000000000000”]
+    }
+}
+```
+
+Below you will find an example `RPC` `GET_ATTESTATION` message and an `ATTESTATION` response.
+
+Message: 
+
+```
+EWP 3 RPC <length of header> <length of body>
+{
+    “method_id”: 0x0E,
+    “id”: 1,
+}
+{
+    “body”: {
+        "attestationHash": “0x2a00000000000000”
+    }
+}
+```
+
+Response: 
+```
+EWP 3 RPC <length of header> <length of body>
+{
+        “method_id”: 0x0F,
+        “id”: 1,
+}
+{
+    “body”: {
+        "attestation": “0x2a00000000000000”      ##ssz encoded
+    }
+} 
+```
+
 #### RPC Methods
 
 There are two types of RPC methods: one that requests data and one that responds with data.
@@ -121,7 +176,7 @@ Upon discovering each other, nodes may exchange `HELLO` messages.
 
 Nodes may send `HELLO` to other peers when they exchange messages for the first time or when their state changes to let them know new blocks are available.
 
-Nodes can send `HELLO` messages to each other to exchange information on their status:
+Nodes can send `HELLO` messages to each other to exchange information on their status, with the following information contained in the body of the message:
 
 ```python
 {
@@ -138,7 +193,7 @@ Upon receiving a `HELLO` message, the node should reply with a `HELLO` message.
 
 ###### `0x01` GOODBYE
 
-Nodes may signal to other nodes that they are going away by sending a `GOODBYE` message:
+Nodes may signal to other nodes that they are going away by sending a `GOODBYE` message, with the following information contained in the body of the message:
 
 ```python
 {
@@ -154,7 +209,7 @@ Upon receiving a `GOODBYE` message, no response is necessary.
 
 Nodes may exchange metadata information using a `GET_STATUS` message.
 <!--is this necessary?-->
-A `GET_STATUS` request may be sent in response to receiving a `GOSSIP` message:
+A `GET_STATUS` request may be sent in response to receiving a `GOSSIP` message, with the following information contained in the body of the message:
 
 ```python
 {
@@ -169,7 +224,7 @@ Any peer may provide information about their status and metadata to any other pe
 
 ###### `0x0A` GET_BLOCK_HEADERS
 
-Nodes may request block headers from other nodes using the `GET_BLOCK_HEADERS` message:
+Nodes may request block headers from other nodes using the `GET_BLOCK_HEADERS` message, with the following information contained in the body of the message:
 
 <!--is this necessary?-->
 ```python
@@ -186,7 +241,7 @@ A `GET_BLOCK_HEADERS` request may be sent in response to receiving a `GOSSIP` me
 
 ###### `0x0B` BLOCK_HEADERS
 
-Nodes may provide block roots to other nodes using the `BLOCK_HEADERS` message, usually in response to a `GET_BLOCK_HEADERS` message:
+Nodes may provide block roots to other nodes using the `BLOCK_HEADERS` message, usually in response to a `GET_BLOCK_HEADERS` message, with the following information contained in the body of the message:
 
 ```python
 {
@@ -198,7 +253,7 @@ Nodes may provide block roots to other nodes using the `BLOCK_HEADERS` message, 
 
 ###### `0x0C` GET_BLOCK_BODIES
 
-Nodes may request block bodies from other nodes using the `GET_BLOCK_BODIES` message:
+Nodes may request block bodies from other nodes using the `GET_BLOCK_BODIES` message, with the following information contained in the body of the message:
 
 ```python
 {
@@ -212,7 +267,7 @@ Nodes may request block bodies from other nodes using the `GET_BLOCK_BODIES` mes
 
 ###### `0x0D` BLOCK_BODIES
 
-Nodes may provide block roots to other nodes using the `BLOCK_BODIES` message, usually in response to a `GET_BLOCK_BODIES` message:
+Nodes may provide block roots to other nodes using the `BLOCK_BODIES` message, usually in response to a `GET_BLOCK_BODIES` message, with the following information contained in the body of the message:
 
 ```python
 {
@@ -224,7 +279,7 @@ Nodes may provide block roots to other nodes using the `BLOCK_BODIES` message, u
 
 ###### GET_ATTESTATION
 
-Nodes may request an attestation from other nodes using the `GET_ATTESTATION` message:
+Nodes may request an attestation from other nodes using the `GET_ATTESTATION` message, with the following information contained in the body of the message:
 
 ```python
 {
@@ -248,7 +303,7 @@ For the scope of this specification, only the GOSSIP message is defined, so all 
 
 #### Envelope
 
-The message must contain the following header:
+GOSSIP messages do not contain a body. The message must contain the following header:
 
 ```python
 { 
@@ -282,10 +337,6 @@ The message may contain additional headers specified by the application layer.
 ##### `0x00` GOSSIP
 
 Nodes use `GOSSIP` methods to send data to other nodes in the network.
-
-The body of a `GOSSIP` method consists in the data being gossiped.
-
-**@TODO: is the body an ssz encoded byte array?**
 
 The `message_hash` header value must match the hash of the contents of the body according to a predefined hash function defined by the application.
 
