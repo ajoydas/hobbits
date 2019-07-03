@@ -100,7 +100,7 @@ The `body` field contains an [SSZ](https://github.com/ethereum/eth2.0-specs/blob
 Below you will find an example `RPC` message.
 
 ```
-EWP 0.2 RPC 0 65
+EWP30650
 {
   "method_id": 0x01,
   "id": 1,
@@ -267,7 +267,7 @@ The message must contain the following header:
 
 ##### Example
 ```
-EWP 0.2 GOSSIP 222 0
+EWP312220
 {
   "method_id": 3,
   "topic": "BLOCK",
