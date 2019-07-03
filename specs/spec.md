@@ -51,7 +51,7 @@ The `message` format looks as follows:
 | Field | Definition |
 | ----- | ---------- |
 | version | 4-byte encoded `uint32` that represents the hobbits version. |
-| protocol | 1-byte encoded `uint8` that represents the protocol (0 - RPC, 1 - GOSSIP, 2 - PING |
+| protocol | 1-byte encoded `uint8` that represents the protocol (0 - RPC, 1 - GOSSIP, 2 - PING) |
 | header-length | 4-byte encoded `uint32` that represents the header length. |
 | body-length | 4-byte encoded `uint32` that represents the body length. |
 | header | byte encoded header |
