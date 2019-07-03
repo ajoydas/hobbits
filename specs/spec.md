@@ -45,12 +45,13 @@ The following flow dictates how blocks are shared amongst peers:
 The `message` format looks as follows:
 
 ```
-<version><protocol><header-length><body-length><header><body>
+<protocol-identifier><version><protocol><header-length><body-length><header><body>
 ```
 
 | Field | Definition |
 | ----- | ---------- |
-| version | 4-byte encoded `uint32` that represents the hobbits version. |
+| protocol identifier | utf-8 encoded `EWP` |
+| version | 4-byte encoded `uint32` that represents the hobbits version. (Current Version: 3) |
 | protocol | 1-byte encoded `uint8` that represents the protocol (0 - RPC, 1 - GOSSIP, 2 - PING) |
 | header-length | 4-byte encoded `uint32` that represents the header length. |
 | body-length | 4-byte encoded `uint32` that represents the body length. |
@@ -67,7 +68,7 @@ Every hobbit message contains the following fields:
 
 | Field | Definition | Validity |
 |:------:|----------|:----:|
-| `version` | Defines the EWP version number e.g. `0.2`. | `(\d+\.)(\d+)` |
+| `version` | Defines the EWP version number e.g. `2`. | `uint32` |
 | `protocol` | Defines the [protocol](#protocols). | `(RPC\|GOSSIP\|PING)` |
 | `header` | Defines the header | payload |
 | `body` | Defines the body | payload |
@@ -99,7 +100,7 @@ The `body` field contains an [SSZ](https://github.com/ethereum/eth2.0-specs/blob
 Below you will find an example `RPC` message.
 
 ```
-EWP 0.2 RPC 0 65
+EWP 3 RPC 65 0
 {
   "method_id": 0x01,
   "id": 1,
@@ -266,7 +267,7 @@ The message must contain the following header:
 
 ##### Example
 ```
-EWP 0.2 GOSSIP 222 0
+EWP 3 GOSSIP 222 0
 {
   "method_id": 3,
   "topic": "BLOCK",
@@ -304,7 +305,7 @@ When a `PING` message is received, the node must respond with the body of the `P
 ##### Ping
 
 ```
-EWP 0.2 PING 4 32
+EWP 3 PING 4 32
 ping<body bytes>
 ```
 
@@ -315,7 +316,7 @@ Body: `random 32 bytes`
 ##### Pong
 
 ```
-EWP 0.2 PING 4 32
+EWP 3 PING 4 32
 pong<body bytes>
 ```
 
