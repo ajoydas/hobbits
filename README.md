@@ -6,7 +6,7 @@ Hobbits is a modular wire protocol which allows implementers to experiment with 
 
 ## Specifications
 
-The protocol specification can be found [here](/specs/spec.md)
+The protocol specification can be found [here](/specs/spec.md).
 
 ## Implementations
 
