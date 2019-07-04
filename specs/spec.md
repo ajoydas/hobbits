@@ -246,7 +246,7 @@ A `GET_STATUS` request may be sent in response to receiving a `GOSSIP` message, 
 ```python
 {
   'user_agent': 'bytes' ## the human readable name of the client, optionally with its version and other metadata
-  'timestamp': 'uint64' ## the current time of the node in milliseconds since epoch
+  'timestamp': 'uint32' ## the current time of the node in milliseconds since epoch
 }
 ```
 
