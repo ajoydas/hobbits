@@ -246,7 +246,7 @@ A `GET_STATUS` request may be sent in response to receiving a `GOSSIP` message, 
 ```python
 {
   'user_agent': 'bytes' ## the human readable name of the client, optionally with its version and other metadata
-  'timestamp': 'uint32' ## the current time of the node in milliseconds since epoch
+  'timestamp': 'uint64' ## the current time of the node in milliseconds since epoch
 }
 ```
 
@@ -341,7 +341,7 @@ The message must contain the following headers:
 { 
   'method_id': 'uint16' ## the method used in this exchange, as described below
   'topic': 'string' ## the type of message being exchanged
-  'timestamp': 'uint32' ## timestamp when the message was sent
+  'timestamp': 'uint64' ## timestamp when the message was sent
   'message_hash': 'bytes32' ## a hash uniquely representing the message contents, with a hash function up to the application
   'hash_signature': 'bytes32' ## a signature of the message hash with a public key identifying the node sending data
 }
