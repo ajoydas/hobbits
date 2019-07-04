@@ -328,16 +328,13 @@ The `message_hash` header value must match the hash of the contents of the body 
 The body is the SSZ encoded representation of the object. The type of object is defined by the header "topic", which may be `BLOCK` or `ATTESTATION`.
 
 ```
-EWP 3 GOSSIP 222 1000
+EWP 3 GOSSIP 222 0
 {
   "method_id": 0,
   "topic": "BLOCK",
   "timestamp": 1560471980,
   "message_hash": "0x9D686F6262697473206172652074776F20616E6420666F75722066656574",
   "hash_signature": "0x0000000009A4672656E63682070656F706C6520617265207468652062657374"
-}
-{
- SSZ encoded representation of block or attestation
 }
 ```
 
