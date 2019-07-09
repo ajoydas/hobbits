@@ -1,5 +1,7 @@
 # Hobbits
 
+**This document follows [RFC-2119](https://tools.ietf.org/html/rfc2119).**
+
 ## Table of Contents
 
 1. [Abstract](#abstract)
@@ -163,9 +165,9 @@ EWP 3 RPC <length of header> <length of body>
 
 There are two types of RPC methods: one that requests data and one that responds with data.
 
-* Peers may request blocks and headers from other peers, possibly in response to a `GOSSIP` message. 
-* Peers may request blocks repeatedly from the same peers.
-* Other peers may respond on a best effort basis with header and block data.
+* Peers MAY request blocks and headers from other peers, possibly in response to a `GOSSIP` message. 
+* Peers MAY request blocks repeatedly from the same peers.
+* Other peers MAY respond on a best effort basis with header and block data.
 * There is no SLA for responding. 
 
 ##### Testing
@@ -204,9 +206,9 @@ not only serialization methods, but also identify inconsistencies or discrepanci
 
 ###### `0x00` HELLO
 
-Upon discovering each other, nodes may exchange `HELLO` messages.
+Upon discovering each other, nodes MAY exchange `HELLO` messages.
 
-Nodes may send `HELLO` to other peers when they exchange messages for the first time or when their state changes to let them know new blocks are available.
+Nodes MAY send `HELLO` to other peers when they exchange messages for the first time or when their state changes to let them know new blocks are available.
 
 Nodes can send `HELLO` messages to each other to exchange information on their status, with the following information contained in the body of the message:
 
@@ -221,11 +223,11 @@ Nodes can send `HELLO` messages to each other to exchange information on their s
 }
 ```
 
-Upon receiving a `HELLO` message, the node should reply with a `HELLO` message.
+Upon receiving a `HELLO` message, the node SHOULD reply with a `HELLO` message.
 
 ###### `0x01` GOODBYE
 
-Nodes may signal to other nodes that they are going away by sending a `GOODBYE` message, with the following information contained in the body of the message:
+Nodes MAY signal to other nodes that they are going away by sending a `GOODBYE` message, with the following information contained in the body of the message:
 
 ```python
 {
@@ -233,15 +235,15 @@ Nodes may signal to other nodes that they are going away by sending a `GOODBYE` 
 }
 ```
 
-The reason given is optional. Reason codes are up to each client and should not be trusted.
+The reason given is optional. Reason codes are up to each client and SHOULD NOT be trusted.
 
 Upon receiving a `GOODBYE` message, no response is necessary.
 
 ##### `0x02` GET_STATUS
 
-Nodes may exchange metadata information using a `GET_STATUS` message.
+Nodes MAY exchange metadata information using a `GET_STATUS` message.
 <!--is this necessary?-->
-A `GET_STATUS` request may be sent in response to receiving a `GOSSIP` message, with the following information contained in the body of the message:
+A `GET_STATUS` request MAY be sent in response to receiving a `GOSSIP` message, with the following information contained in the body of the message:
 
 ```python
 {
@@ -250,13 +252,13 @@ A `GET_STATUS` request may be sent in response to receiving a `GOSSIP` message, 
 }
 ```
 
-Any peer may provide information about their status and metadata to any other peer. Other peers may respond on a best effort basis, if at all.
+Any peer MAY provide information about their status and metadata to any other peer. Other peers MAY respond on a best effort basis, if at all.
 
 ##### Block Headers
 
 ###### `0x0A` GET_BLOCK_HEADERS
 
-Nodes may request block headers from other nodes using the `GET_BLOCK_HEADERS` message, with the following information contained in the body of the message:
+Nodes MAY request block headers from other nodes using the `GET_BLOCK_HEADERS` message, with the following information contained in the body of the message:
 
 <!--is this necessary?-->
 ```python
@@ -269,11 +271,11 @@ Nodes may request block headers from other nodes using the `GET_BLOCK_HEADERS` m
 }
 ```
 
-A `GET_BLOCK_HEADERS` request may be sent in response to receiving a `GOSSIP` message.
+A `GET_BLOCK_HEADERS` request MAY be sent in response to receiving a `GOSSIP` message.
 
 ###### `0x0B` BLOCK_HEADERS
 
-Nodes may provide block roots to other nodes using the `BLOCK_HEADERS` message, usually in response to a `GET_BLOCK_HEADERS` message, with the following information contained in the body of the message:
+Nodes MAY provide block roots to other nodes using the `BLOCK_HEADERS` message, usually in response to a `GET_BLOCK_HEADERS` message, with the following information contained in the body of the message:
 
 ```python
 {
@@ -285,7 +287,7 @@ Nodes may provide block roots to other nodes using the `BLOCK_HEADERS` message, 
 
 ###### `0x0C` GET_BLOCK_BODIES
 
-Nodes may request block bodies from other nodes using the `GET_BLOCK_BODIES` message, with the following information contained in the body of the message:
+Nodes MAY request block bodies from other nodes using the `GET_BLOCK_BODIES` message, with the following information contained in the body of the message:
 
 ```python
 {
@@ -299,7 +301,7 @@ Nodes may request block bodies from other nodes using the `GET_BLOCK_BODIES` mes
 
 ###### `0x0D` BLOCK_BODIES
 
-Nodes may provide block roots to other nodes using the `BLOCK_BODIES` message, usually in response to a `GET_BLOCK_BODIES` message, with the following information contained in the body of the message:
+Nodes MAY provide block roots to other nodes using the `BLOCK_BODIES` message, usually in response to a `GET_BLOCK_BODIES` message, with the following information contained in the body of the message:
 
 ```python
 {
@@ -311,7 +313,7 @@ Nodes may provide block roots to other nodes using the `BLOCK_BODIES` message, u
 
 ###### `0x0E` GET_ATTESTATION
 
-Nodes may request an attestation from other nodes using the `GET_ATTESTATION` message, with the following information contained in the body of the message:
+Nodes MAY request an attestation from other nodes using the `GET_ATTESTATION` message, with the following information contained in the body of the message:
 
 ```python
 {
@@ -335,7 +337,7 @@ For the scope of this specification, only the GOSSIP message is defined, so all 
 
 #### Envelope
 
-The message must contain the following headers:
+The message MUST contain the following headers:
 
 ```python
 { 
@@ -347,7 +349,7 @@ The message must contain the following headers:
 }
 ```
 
-The message may contain additional headers specified by the application layer (metadata for monitoring and metrics collection, such as the number of hops).
+The message MAY contain additional headers specified by the application layer (metadata for monitoring and metrics collection, such as the number of hops).
 
 #### GOSSIP Methods
 
@@ -355,9 +357,9 @@ The message may contain additional headers specified by the application layer (m
 
 Nodes use `GOSSIP` methods to send data to other nodes in the network.
 
-The `message_hash` header value must match the hash of the contents of the body according to a predefined hash function defined by the application.
+The `message_hash` header value MUST match the hash of the contents of the body according to a predefined hash function defined by the application.
 
-The body is the SSZ encoded representation of the object. The type of object is defined by the header "topic", which may be `BLOCK` or `ATTESTATION`.
+The body is the SSZ encoded representation of the object. The type of object is defined by the header "topic", which MUST be `BLOCK` or `ATTESTATION`.
 
 ```
 EWP 3 GOSSIP 222 0
@@ -379,7 +381,7 @@ Other gossip methods are explicitly out of scope for this specification at this 
 
 The ping/pong protocol is used to test connections between two peers and ensure the Hobbits implementation is passing conformance tests.
 
-When a `PING` message is received, the node must respond with the body of the `PING` message as a `PONG` message.
+When a `PING` message is received, the node MUST respond with the body of the `PING` message as a `PONG` message.
 
 #### PING methods
 
