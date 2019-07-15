@@ -218,7 +218,7 @@ Nodes MAY request an attestation from other nodes using the `GET_ATTESTATION` me
 
 ```python
 {
-    'hash' : 'bytes'  #hash of the attestation signature
+    'hash' : 'bytes'  #hash tree root of the attestation object
 }
 ```
 
@@ -246,7 +246,7 @@ The message MUST contain the following headers:
   'topic': 'string' ## the type of message being exchanged
   'timestamp': 'uint64' ## timestamp when the message was sent
   'message_hash': 'bytes32' ## a hash uniquely representing the message contents, with a hash function up to the application
-  'hash_signature': 'bytes32' ## a signature of the message hash with a public key identifying the node sending data
+  'hash': 'bytes32' ## hash identifying the data being sent
 }
 ```
 
@@ -269,7 +269,7 @@ EWP 3 1 222 0
   "topic": "BLOCK",
   "timestamp": 1560471980,
   "message_hash": "0x9D686F6262697473206172652074776F20616E6420666F75722066656574",
-  "hash_signature": "0x0000000009A4672656E63682070656F706C6520617265207468652062657374"
+  "hash": "0x0000000009A4672656E63682070656F706C6520617265207468652062657374"   #hash tree root of BLOCK or ATTESTATION
 }
 ```
 
