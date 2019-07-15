@@ -218,7 +218,7 @@ Nodes MAY request an attestation from other nodes using the `GET_ATTESTATION` me
 
 ```python
 {
-    'signature' : 'bytes'
+    'hash' : 'bytes'  #hash of the attestation signature
 }
 ```
 
