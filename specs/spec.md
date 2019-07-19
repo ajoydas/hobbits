@@ -260,7 +260,7 @@ Nodes use `GOSSIP` methods to send data to other nodes in the network.
 
 The `message_hash` header value MUST match the hash of the contents of the body according to a predefined hash function defined by the application.
 
-The body is the SSZ encoded representation of the object. The type of object is defined by the header "topic", which MUST be `BLOCK` or `ATTESTATION`.
+The `hash` is the `hash_tree_root` of the object. The type of object is defined by `topic`, which MUST be `BLOCK` or `ATTESTATION`.
 
 ```
 EWP 3 1 222 0
@@ -325,4 +325,3 @@ This project would not exist without the dedication of the following individuals
 * Rene Nayman
 * Jonny Rhea
 * Preston Van Loon
-
