@@ -260,7 +260,7 @@ Nodes use `GOSSIP` methods to send data to other nodes in the network.
 
 The `message_hash` header value MUST match the hash of the contents of the body according to a predefined hash function defined by the application.
 
-The `hash` is the `hash_tree_root` of the object. The type of object is defined by `topic`, which MUST be `BLOCK` or `ATTESTATION`.
+The `hash` is the [`hash_tree_root`](https://github.com/ethereum/eth2.0-specs/blob/v0.8.1/specs/core/0_beacon-chain.md#hash_tree_root) of the object. The type of object is defined by `topic`, which MUST be `BLOCK` or `ATTESTATION`.
 
 ```
 EWP 3 1 222 0
