@@ -230,6 +230,27 @@ Nodes MAY request an attestation from other nodes using the `GET_ATTESTATION` me
 }
 ```
 
+##### Beacon States
+
+###### `16` GET_BEACON_STATES
+
+Nodes MAY request beacon states from other nodes using the `GET_BEACON_STATES` message, with the following information contained in the body of the message:
+
+```python
+{
+    'hashes' : '[]bytes32'  
+}
+```
+
+###### `17` BEACON_STATES
+Nodes MAY provide beacon states to other nodes using the BEACON_STATES message, usually in response to a GET_BEACON_STATES message, with the following information contained in the body of the message:
+
+```python
+{
+    'states' : '[]BeaconState'     #SSZ encoded
+}
+```
+
 ### GOSSIP
 
 The gossip protocol allows the propagation of a message to all peers by gossiping the message or its attestation.
